@@ -1,0 +1,27 @@
+db.createCollection("comunidad",{
+	validator: {
+		$jsonSchema:{
+            bsontype:"object",
+            description: "Validacion de comunidad",
+            required: ["_id","titulo_articulo","description"],
+            minProperties:2,
+            additionalProperties: false,
+            properties:{
+                titulo_articulo:{
+                    bsontype: "string",
+                    description: "Titulo del post",
+                    minLength: 3,
+                    maxLength: 255,
+                },
+                description:{
+                    bsontype: "string",
+                    description: "De que se basa la comunidad",
+                },
+                
+
+            }
+
+
+        }
+    }
+})
