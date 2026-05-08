@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'anime',
 ]
 
 MIDDLEWARE = [
@@ -74,8 +75,11 @@ WSGI_APPLICATION = 'uninanime.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'anime_db',
+        'CLIENT': {
+            'host': 'mongodb://127.0.0.1:27017',
+        }
     }
 }
 
