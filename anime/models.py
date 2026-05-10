@@ -9,7 +9,27 @@ class Review(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
     comment = models.TextField()
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        abstract = True
+
+class Character(models.Model):
+    name = models.CharField(max_length=150)
+
+    role = models.CharField(
+        max_length=50,
+        blank=True
+    )
+
+    description = models.TextField(blank=True)
+
+    image_url = models.URLField(blank=True)
+
+    age = models.IntegerField(
+        null=True,
+        blank=True
+    )
 
     class Meta:
         abstract = True
@@ -34,6 +54,12 @@ class Anime(models.Model):
         default=list
     )
 
+    characters = models.ArrayField(
+        model_container=Character,
+        blank=True,
+        default=list
+    )
+
     stats = models.JSONField(default=dict)
 
 
@@ -41,10 +67,32 @@ class Anime(models.Model):
 
     def clean(self):
         if not isinstance(self.genres, list):
-            raise ValidationError("Genres debe ser una lista")
+            raise ValidationError("Generos debe ser una lista")
 
         if len(self.genres) == 0:
             raise ValidationError("Debe tener al menos un género")
+
+        character_names = set()
+
+        for character in self.characters:
+
+            if character.name in character_names:
+                raise ValidationError(
+                    f"El personaje '{character.name}' ya existe"
+                )
+
+            character_names.add(character.name)
+
+        review_users = set()
+
+        for review in self.reviews:
+
+            if review.username in review_users:
+                raise ValidationError(
+                    f"{review.username} ya hizo una review"
+                )
+
+            review_users.add(review.username)
 
     def __str__(self):
         return self.title
