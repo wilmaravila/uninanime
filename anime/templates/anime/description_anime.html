@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ anime.title }} - Detalles</title>
+    
+    <link rel="stylesheet" href="{% static 'anime/description.css' %}">
+</head>
+<body>
+
+    <header class="hero" style="background-image: linear-gradient(to top, var(--bg-color) 0%, rgba(9, 9, 11, 0.2) 100%), url('{{ anime.poster_url }}');">
+        <div class="hero-content">
+            <h1>{{ anime.title }}</h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="left-col">
+            <div class="stats-bar">
+                <div class="stats-info">
+                    <div class="rating">
+                        ⭐ <span>{{ anime.stats.avg_rating|default:"0.0" }}</span>
+                    </div>
+                    <span>{{ anime.release_year }}</span>
+                    <span>TV MA</span>
+                    <span>{{ anime.episodes }} EP</span>
+                </div>
+                <button class="btn-add">+ Añadir a mi Lista</button>
+            </div>
+
+            <section class="synopsis">
+                <h2 class="section-title">Sinopsis</h2>
+                <p>{{ anime.synopsis }}</p>
+                <div class="genres">
+                    {% for genre in anime.genres %}
+                        <span class="genre-pill">{{ genre }}</span>
+                    {% empty %}
+                        <span class="genre-pill">Sin género</span>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="characters">
+                <h2 class="section-title">Personajes Principales</h2>
+                <div class="character-grid">
+                    {% for character in anime.characters %}
+                    <div class="character-card">
+                        <img src="{{ character.image_url }}" alt="{{ character.name }}">
+                        <div class="character-info">
+                            <h4>{{ character.name }}</h4>
+                            {% if character.gender %}
+                                <span>{{ character.gender }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="empty-message">No hay personajes registrados.</p>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+
+        <div class="right-col">
+            <section class="reviews">
+                <div class="reviews-header">
+                    <h2 class="section-title">Reseñas</h2>
+                    <span class="view-all">Ver todas ></span>
+                </div>
+                
+                <div class="reviews-list">
+                    {% for review in anime.reviews|slice:":4" %}
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="review-user">@{{ review.username }}</span>
+                            <span class="review-rating">⭐ {{ review.rating }}/5</span>
+                        </div>
+                        <p class="review-comment">"{{ review.comment }}"</p>
+                        <p class="review-desc">{{ review.description }}</p>
+                    </div>
+                    {% empty %}
+                    <p class="empty-message">Nadie ha comentado aún. ¡Sé el primero!</p>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="series-info">
+                <h3>Información</h3>
+                <div class="info-row">
+                    <span class="info-label">Episodios</span>
+                    <span class="info-value">{{ anime.episodes }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Año de Emisión</span>
+                    <span class="info-value">{{ anime.release_year }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Vistas Totales</span>
+                    <span class="info-value">{{ anime.stats.views|default:"0" }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Total Reseñas</span>
+                    <span class="info-value">{{ anime.stats.total_reviews|default:"0" }}</span>
+                </div>
+            </section>
+        </div>
+    </main>
+
+</body>
+</html>
