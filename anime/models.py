@@ -24,7 +24,7 @@ class Character(models.Model):
 
     description = models.TextField(blank=True)
 
-    image_url = models.URLField(blank=True)
+    image_url = models.URLField(default="https://i.imgur.com/cZL0mCq.jpeg")
 
     age = models.IntegerField(
         null=True,
@@ -45,6 +45,8 @@ class Anime(models.Model):
     release_year = models.IntegerField(
         validators=[MinValueValidator(1900), MaxValueValidator(2100)]
     )
+
+    poster_url = models.URLField(default="https://i.imgur.com/QvUUowX.jpeg")
 
     genres = models.JSONField()
 
