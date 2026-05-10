@@ -1,3 +1,6 @@
 from django.shortcuts import render
+from .models import Anime
 
-# Create your views here.
+def anime_list(request):
+    animes = Anime.objects.all()
+    return render(request, "anime/list.html", {"animes": animes})

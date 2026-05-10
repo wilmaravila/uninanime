@@ -1,0 +1,11 @@
+<h1>Lista de Animes</h1>
+
+{% for anime in animes %}
+  <div style="margin-bottom:20px;">
+    <h2>{{ anime.title }}</h2>
+
+    <img src="{{ anime.poster_url }}" width="150">
+
+    <p>{{ anime.synopsis }}</p>
+  </div>
+{% endfor %}
