@@ -82,3 +82,12 @@ def delete_review(request, pk, username):
     
     anime.save() 
     return redirect('anime_detail', pk=pk)
+
+def all_reviews(request, pk):
+    anime = get_object_or_404(Anime, pk=pk)
+    
+    reviews = reversed(anime.reviews) 
+    return render(request, 'anime/all_reviews.html', {
+        'anime': anime,
+        'reviews': reviews
+    })

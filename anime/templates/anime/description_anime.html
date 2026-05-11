@@ -69,8 +69,8 @@
                 <div class="reviews-header">
                     <h2 class="section-title">Reseñas</h2>
                     <div class="reviews-actions">
-                        <a href="{% url 'add_review' anime.id %}" class="btn-add-review" style="text-decoration: none; display: inline-block;">+ Escribir Reseña</a>
-                        <span class="view-all">Ver todas ></span>
+                        <a href="{% url 'add_review' anime.id %}" class="btn-add-review">+ Escribir Reseña</a>
+                        <a href="{% url 'all_reviews' anime.id %}" class="view-all" style="text-decoration: none;">Ver todas ></a>
                     </div>
                 </div>
                 
