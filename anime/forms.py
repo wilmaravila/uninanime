@@ -42,7 +42,6 @@ class AnimeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AnimeForm, self).__init__(*args, **kwargs)
         
-        # Si estamos editando un anime que ya existe...
         if self.instance and self.instance.pk:
             genres_data = self.instance.genres
             

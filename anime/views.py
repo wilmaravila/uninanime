@@ -110,25 +110,17 @@ def add_character(request, pk):
                     "image_url": form.cleaned_data['image_url'] or "https://i.imgur.com/vH97D8v.png"
                 }
                 
-                # Agregamos el personaje
                 anime.characters.append(nuevo_personaje)
-                
-                # ESTO ES LO CLAVE:
-                # Al llamar a full_clean(), obligamos a Django a ejecutar el def clean() 
-                # de tu modelo ANTES de intentar guardar en la base de datos.
                 anime.full_clean() 
                 anime.save()
                 
                 return redirect('anime_detail', pk=pk)
                 
             except ValidationError as e:
-                # Si el modelo lanza el error de "personaje duplicado", lo atrapamos
-                # y lo inyectamos directamente en el formulario
                 error_msg = e.messages[0] if hasattr(e, 'messages') else str(e)
-                form.add_error(None, error_msg) # Agrega el error a la parte superior del form
+                form.add_error(None, error_msg)
                 
             except Exception as e:
-                # Para cualquier otro error inesperado
                 form.add_error(None, f"Ocurrió un error inesperado: {e}")
     else:
         form = CharacterForm()
