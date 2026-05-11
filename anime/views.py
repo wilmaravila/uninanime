@@ -22,10 +22,26 @@ def anime_create(request):
         
         if form.is_valid():
             form.save()
-            # Asegúrate de que 'anime_list' sea el nombre de la URL de tu lista
             return redirect('anime_list') 
             
     else:
         form = AnimeForm(initial={'episodes': 1, 'release_year': 2024})
 
     return render(request, 'anime/new_anime.html', {'form': form})
+
+def anime_update(request, pk):
+    anime = get_object_or_404(Anime, pk=pk)
+    
+    if request.method == 'POST':
+        form = AnimeForm(request.POST, instance=anime)
+        if form.is_valid():
+            form.save()
+            return redirect('anime_detail', pk=anime.id) 
+    else:
+        # Al cargar por primera vez, pasamos el anime actual al formulario
+        form = AnimeForm(instance=anime)
+    
+    return render(request, 'anime/form_anime.html', {
+        'form': form,
+        'editing': True
+    })

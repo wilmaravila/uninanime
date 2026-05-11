@@ -1,15 +1,12 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="referrer" content="no-referrer">
-    <title>{{ anime.title|default:"Anime Detalle" }}</title>
-    
+
+{% block title %}{{ anime.title|default:"Anime Detalle" }}{% endblock %}
+{% block extra_css %}
     <link rel="stylesheet" href="{% static 'anime/description.css' %}">
-</head>
-<body>
+    <link rel="stylesheet" href="{% static 'anime/general.css' %}">
+{% endblock %}
+{% block content %}
 
 <header class="hero" id="hero-header" style="background-image: linear-gradient(to top, var(--bg-color) 0%, rgba(9, 9, 11, 0.4) 100%), url('{{ anime.poster_url }}');">
         
@@ -115,5 +112,4 @@
         </div>
     </main>
 
-</body>
-</html>
+{% endblock %}

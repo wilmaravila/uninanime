@@ -15,7 +15,6 @@ class AnimeForm(forms.ModelForm):
         return [g.strip() for g in data.split(",")]
     
 class AnimeForm(forms.ModelForm):
-    # 1. Usamos el nombre exacto del modelo ('genres') pero como texto
     genres = forms.CharField(
         label="Géneros * (separados por coma)",
         required=True,
@@ -24,7 +23,6 @@ class AnimeForm(forms.ModelForm):
 
     class Meta:
         model = Anime
-        # 2. Ahora SÍ incluimos 'genres' en los fields
         fields = ['title', 'poster_url', 'episodes', 'release_year', 'genres', 'synopsis']
         
         labels = {
@@ -41,16 +39,14 @@ class AnimeForm(forms.ModelForm):
             'synopsis': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Escribe de qué trata el anime...'}),
         }
 
-    # 3. Este método especial de Django intercepta el texto ANTES de mandarlo al modelo
+    def __init__(self, *args, **kwargs):
+        super(AnimeForm, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields['genres'].initial = ", ".join(self.instance.genres)
+
     def clean_genres(self):
         genres_raw = self.cleaned_data.get('genres', '')
-        
-        # Convertimos el texto separado por comas a una lista
         genres_list = [g.strip() for g in genres_raw.split(',') if g.strip()]
-        
-        # Si la lista quedó vacía (ej: el usuario solo puso comas), lanzamos error
         if len(genres_list) == 0:
-            raise ValidationError("Debe ingresar al menos un género válido.")
-            
-        # Lo que retornamos aquí, Django se lo inyecta automáticamente al modelo como lista
+            raise ValidationError("Debe ingresar al menos un género.")
         return genres_list

@@ -1,16 +1,15 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anime Library</title>
+
+{% block title %}Libreria anime{% endblock %}
+{% block extra_css %}
     <link rel="stylesheet" href="{% static 'anime/list.css' %}">
-</head>
-<body>
+    <link rel="stylesheet" href="{% static 'anime/general.css' %}">
+{% endblock %}
+{% block content %}
 
     <div class="header-container">
-        <h1 class="title">Anime Library</h1>
+        <h1 class="title">Libreria Anime.</h1>
         <a href="{% url 'anime_create' %}" class="btn-add-anime">+ Agregar Anime</a>
     </div>
 
@@ -18,7 +17,7 @@
         {% for anime in animes %}
         <div class="card">
             
-            <a href="#" class="btn-edit" title="Editar Anime">✏️</a>
+            <a href="{% url 'anime_update' anime.id %}" class="btn-edit" title="Editar Anime">✏️</a>
 
             <a href="{% url 'anime_detail' anime.id %}" class="card-link">
                 <div class="poster">
@@ -37,3 +36,5 @@
 
 </body>
 </html>
+
+{% endblock %}
