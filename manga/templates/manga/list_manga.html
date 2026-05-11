@@ -1,0 +1,50 @@
+{%extends 'base.html'%}
+{%load static %}
+
+{% block title %}Libreria Manga{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'manga/list.css' %}">
+    <link rel="stylesheet" href="{% static 'manga/general.css' %}">
+{% endblock %}
+{% block content %}
+
+    <div class="header-container">
+        <h1 class="title">Libreria Manga</h1>
+        <a href="{% url 'manga_create' %}" class="btn-add-manga">+ Crear manga</a>
+    </div>
+
+    {% if mangas %}
+        <div class="grid">
+            {% for manga in mangas %}
+            <div class="card">
+                <div class="card-actions">
+                    <a href="{% url 'manga_update' manga.id %}" class="btn-action edit" title="Editar">✏️</a>
+                    
+                    <a href="{% url 'manga_delete' manga.id %}" 
+                       class="btn-action delete" 
+                       title="Eliminar"
+                       onclick="return confirm('¿Estás completamente seguro de eliminar este manga? Esta acción no se puede deshacer.')">
+                       🗑️
+                    </a>
+                </div>
+
+                <a href="{% url 'manga_detail' manga.id %}" class="card-link">
+                    <div class="poster">
+                        <img src="{{ manga.poster_url }}" onerror="this.onerror=null; this.src='{% static "manga/imagenes/anime_not_found.png" %}'"/>
+                    </div>
+                    <div class="info">
+                        <h3>{{ manga.titulo }}</h3>
+                        <p>{{ manga.capitulos }} capítulos · {{ manga.get_estado_display }}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>No hay mangas registrados aún.</p>
+            <a href="{% url 'manga_create' %}" class="btn-add-manga">Agregar primer manga</a>
+        </div>
+    {% endif %}
+
+{% endblock %}

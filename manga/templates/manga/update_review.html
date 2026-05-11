@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Editar Reseña - {{ manga.titulo }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'manga/add_review.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Editar reseña de <span style="color: var(--primary-color);">{{ manga.titulo }}</span></h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        
+        {% if form.non_field_errors %}
+            <div class="error-message">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <span class="field-error">{{ field.errors.0 }}</span>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <div class="form-actions">
+            <a href="{% url 'manga_detail' manga.id %}" class="btn-cancel">Cancelar</a>
+            <button type="submit" class="btn-submit">Actualizar reseña</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

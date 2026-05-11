@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Reseñas - {{ manga.titulo }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'manga/all_reviews.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="reviews-page-container">
+    <div class="reviews-page-header">
+        <div class="nav-top">
+            <a href="{% url 'manga_detail' manga.id %}" class="btn-back">
+                <span class="icon">‹</span> Volver al detalle
+            </a>
+        </div>
+
+        <h1>Reseñas de <span class="highlight">{{ manga.titulo }}</span></h1>
+        
+        <div class="stats-summary">
+            <span class="avg-badge">⭐ {{ manga.rating|floatformat:1 }}</span>
+            <span class="count-text">{{ manga.review|length }} opiniones</span>
+        </div>
+
+        <div class="header-actions">
+            <a href="{% url 'manga_add_review' manga.id %}" class="btn-add-main">
+                <span class="icon">+</span> Escribir mi reseña
+            </a>
+        </div>
+    </div>
+
+    <div class="reviews-grid">
+        {% for review in reviews %}
+            <div class="review-card">
+                <div class="card-header">
+                    <div class="user-meta">
+                        <span class="user-avatar">{{ review.username|slice:":1"|upper }}</span>
+                        <span class="username">@{{ review.username }}</span>
+                    </div>
+                    <a href="{% url 'manga_delete_review' manga.id forloop.counter0 %}" class="delete-icon" onclick="return confirm('¿Eliminar reseña?')">&times;</a>
+                </div>
+                <div class="card-body">
+                    <div class="stars">
+                        {% for i in "12345" %}
+                            <span class="star {% if forloop.counter <= review.rating %}filled{% endif %}">★</span>
+                        {% endfor %}
+                    </div>
+                    <h3 class="review-title">{{ review.comment }}</h3>
+                    <p class="review-body">{{ review.comment }}</p>
+                </div>
+            </div>
+        {% empty %}
+            <div class="empty-state">
+                <p>Aún no hay reseñas para este manga.</p>
+                <a href="{% url 'manga_add_review' manga.id %}" class="btn-add-main">¡Sé el primero!</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

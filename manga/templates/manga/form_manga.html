@@ -1,0 +1,50 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if editing %}Actualizar Manga{% else %}Añadir Nuevo Manga{% endif %}{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'manga/form_manga.css' %}">
+{% endblock %}
+{% block content %}{% load static %}
+
+    <section class="form-section">
+
+        <div class="form-container">
+            <h2>{% if editing %}Actualizar manga{% else %}Añadir Nuevo manga{% endif %}</h2>
+            <form method="POST">
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                    <div class="error-message">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        
+                        {% if field.name == 'autor' %}
+                            <a href="{% url 'autor_create' %}" class="btn-add-author">Crear autor</a>
+                        {% endif %}
+
+                        {% if field.errors %}
+                            <span class="field-error">{{ field.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <div class="form-actions">
+                    <a href="{% url 'manga_list' %}" class="btn-cancel">Cancelar</a>
+                    <button type="submit" class="btn-submit">
+                        {% if editing %}Guardar Cambios{% else %}Guardar manga{% endif %}
+                    </button>
+            </form>
+        </div>
+
+    </section>
+
+
+{% endblock %}

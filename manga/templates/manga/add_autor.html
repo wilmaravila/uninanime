@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Crear Autor{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'manga/form_manga.css' %}">
+{% endblock %}
+
+{% block content %}
+    <section class="form-section">
+        <div class="form-container">
+            <h2>Crear autor</h2>
+            <form method="POST">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="error-message">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <span class="field-error">{{ field.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <div class="form-actions">
+                    <a href="{% url 'manga_create' %}" class="btn-cancel">Volver</a>
+                    <button type="submit" class="btn-submit">Guardar autor</button>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}
