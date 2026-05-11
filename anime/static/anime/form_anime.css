@@ -47,7 +47,6 @@
     font-size: 0.9rem;
 }
 
-/* Aplicamos estilos a los inputs y textareas que genera Django */
 .form-group input, 
 .form-group textarea,
 .form-group select {

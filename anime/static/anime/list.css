@@ -28,7 +28,6 @@ body {
     transition: 0.3s;
 }
 
-/* --- ACCIONES DE LA TARJETA --- */
 .card-actions {
     position: absolute;
     top: 10px;
@@ -54,14 +53,12 @@ body {
     transition: all 0.2s ease;
 }
 
-/* Color para editar */
 .btn-action.edit:hover {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
     transform: scale(1.1);
 }
 
-/* Color para eliminar */
 .btn-action.delete:hover {
     background-color: var(--error-color, #ef4444);
     border-color: var(--error-color, #ef4444);
@@ -82,12 +79,11 @@ body {
     padding: 10px;
 }
 
-/* --- CABECERA Y BOTÓN AGREGAR --- */
 .header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px; /* Ajusta según el ancho máximo de tu grid */
+    max-width: 1200px; 
     margin: 2rem auto;
     padding: 0 1rem;
 }
@@ -95,7 +91,7 @@ body {
 .title {
     margin: 0;
     font-size: 2.5rem;
-    color: #f4f4f5; /* Asumiendo que tu fondo es oscuro */
+    color: #f4f4f5; 
 }
 
 .btn-add-anime {
@@ -116,9 +112,8 @@ body {
     transform: scale(0.95);
 }
 
-/* --- TARJETA Y BOTÓN EDITAR --- */
 .card {
-    position: relative; /* CRÍTICO para que el botón de editar flote relativo a la tarjeta */
+    position: relative; 
     border-radius: 12px;
     overflow: hidden;
     background-color: #16161a;
@@ -132,10 +127,9 @@ body {
 .card-link {
     text-decoration: none;
     color: inherit;
-    display: block; /* Para que el enlace ocupe toda el área de la tarjeta */
+    display: block;
 }
 
-/* Estilos para el botón de editar (Flotante) */
 .btn-edit {
     position: absolute;
     top: 10px;
@@ -149,7 +143,7 @@ body {
     justify-content: center;
     border-radius: 50%;
     text-decoration: none;
-    z-index: 10; /* Asegura que esté por encima del enlace principal */
+    z-index: 10;
     transition: background-color 0.2s;
     backdrop-filter: blur(4px);
     border: 1px solid #27272a;
@@ -160,7 +154,6 @@ body {
     border-color: #a855f7;
 }
 
-/* Ajustes básicos para poster e info (por si no los tenías) */
 .poster img {
     width: 100%;
     aspect-ratio: 2/3;
