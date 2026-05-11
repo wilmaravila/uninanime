@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Anime
 from django.core.exceptions import ValidationError
-from .forms import AnimeForm, ReviewForm
+from .forms import AnimeForm, ReviewForm, CharacterForm
 
 def anime_list(request):
     animes = Anime.objects.all()
@@ -96,3 +96,48 @@ def all_reviews(request, pk):
         'anime': anime,
         'reviews': reviews
     })
+
+def add_character(request, pk):
+    anime = get_object_or_404(Anime, pk=pk)
+    
+    if request.method == 'POST':
+        form = CharacterForm(request.POST)
+        if form.is_valid():
+            try:
+                nuevo_personaje = {
+                    "name": form.cleaned_data['name'],
+                    "role": form.cleaned_data['role'],
+                    "image_url": form.cleaned_data['image_url'] or "https://i.imgur.com/vH97D8v.png"
+                }
+                
+                # Agregamos el personaje
+                anime.characters.append(nuevo_personaje)
+                
+                # ESTO ES LO CLAVE:
+                # Al llamar a full_clean(), obligamos a Django a ejecutar el def clean() 
+                # de tu modelo ANTES de intentar guardar en la base de datos.
+                anime.full_clean() 
+                anime.save()
+                
+                return redirect('anime_detail', pk=pk)
+                
+            except ValidationError as e:
+                # Si el modelo lanza el error de "personaje duplicado", lo atrapamos
+                # y lo inyectamos directamente en el formulario
+                error_msg = e.messages[0] if hasattr(e, 'messages') else str(e)
+                form.add_error(None, error_msg) # Agrega el error a la parte superior del form
+                
+            except Exception as e:
+                # Para cualquier otro error inesperado
+                form.add_error(None, f"Ocurrió un error inesperado: {e}")
+    else:
+        form = CharacterForm()
+        
+    return render(request, 'anime/add_character.html', {'form': form, 'anime': anime})
+
+def delete_character(request, pk, name):
+    anime = get_object_or_404(Anime, pk=pk)
+    
+    anime.characters = [c for c in anime.characters if c.get('name') != name]
+    anime.save()
+    return redirect('anime_detail', pk=pk)

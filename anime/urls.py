@@ -10,4 +10,6 @@ urlpatterns = [
     path('anime/<int:pk>/review/delete/<str:username>/', delete_review, name='delete_review'),
     path('anime/<int:pk>/reviews/', all_reviews, name='all_reviews'),
     path('anime/delete/<int:pk>/', anime_delete, name='anime_delete'),
+    path('anime/<int:pk>/character/add/', add_character, name='add_character'),
+    path('anime/<int:pk>/character/delete/<str:name>/', delete_character, name='delete_character'),
 ]

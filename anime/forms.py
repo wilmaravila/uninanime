@@ -87,3 +87,26 @@ class ReviewForm(forms.Form):
         required=False, 
         widget=forms.Textarea(attrs={'rows': 4, 'placeholder': '¿Qué te pareció la animación, la historia...?'})
     )
+
+class CharacterForm(forms.Form):
+    name = forms.CharField(
+        label="Nombre del Personaje *",
+        max_length=100,
+        widget=forms.TextInput(attrs={'placeholder': 'Ej: Shinji Ikari'})
+    )
+    
+    role = forms.ChoiceField(
+        label="Rol en la serie *",
+        choices=[
+            ('Protagonista', 'Protagonista'),
+            ('Secundario', 'Secundario'),
+            ('Antagonista', 'Antagonista')
+        ],
+        widget=forms.RadioSelect(attrs={'class': 'role-radio-group'})
+    )
+    
+    image_url = forms.URLField(
+        label="URL de la imagen",
+        required=False,
+        widget=forms.URLInput(attrs={'placeholder': 'https://ejemplo.com/personaje.jpg'})
+    )

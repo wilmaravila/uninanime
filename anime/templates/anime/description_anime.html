@@ -44,17 +44,26 @@
                 </div>
             </section>
 
-            <section class="characters">
-                <h2 class="section-title">Personajes Principales</h2>
+           <section class="characters">
+                <div class="characters-header">
+                    <h2 class="section-title">Personajes</h2>
+                    <a href="{% url 'add_character' anime.id %}" class="btn-add-pill">+ Agregar</a>
+                </div>
+
                 <div class="character-grid">
                     {% for character in anime.characters %}
                     <div class="character-card">
-                        <img src="{{ character.image_url }}" alt="{{ character.name }}" onerror="this.onerror=null; this.src='{% static 'anime/images/default_character.jpg' %}';">
+                        <a href="{% url 'delete_character' anime.id character.name %}" 
+                        class="delete-char-btn" 
+                        onclick="return confirm('¿Eliminar a {{ character.name }}?')"
+                        title="Eliminar personaje">&times;</a>
+
+                        <img src="{{ character.image_url }}" alt="{{ character.name }}" 
+                            onerror="this.onerror=null; this.src='{% static 'anime/images/default_character.jpg' %}';">
+                        
                         <div class="character-info">
                             <h4>{{ character.name }}</h4>
-                            {% if character.gender %}
-                                <span>{{ character.gender }}</span>
-                            {% endif %}
+                            <span class="role-badge">{{ character.role|default:"Personaje" }}</span>
                         </div>
                     </div>
                     {% empty %}
