@@ -15,3 +15,9 @@ body {
     object-fit: cover;
     filter: brightness(40%);
 }
+
+main.main-container {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+}

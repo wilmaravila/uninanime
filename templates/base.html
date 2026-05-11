@@ -18,6 +18,8 @@
     <a href="{% url 'com_lista' %}" class="brand">UniNAnime</a>
     <ul class="nav-links">
       <li><a class="nav-link-custom {% if request.resolver_match.url_name == 'com_lista' %}active{% endif %}" href="{% url 'com_lista' %}">Inicio</a></li>
+      <li><a class="nav-link-custom {% if request.resolver_match.url_name == 'anime_list' %}active{% endif %}" href="{% url 'anime_list' %}">Animes</a></li>
+      <li><a class="nav-link-custom {% if request.resolver_match.url_name == '#' %}active{% endif %}" href="">Mangas</a></li>
       <li><a class="nav-link-custom {% if request.resolver_match.url_name == 'com_sugerencias' %}active{% endif %}" href="{% url 'com_sugerencias' %}">Sugerencias</a></li>
       <li><a class="nav-link-custom btn-publicar" href="{% url 'com_nueva' %}">Publicar</a></li>
     </ul>

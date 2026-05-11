@@ -1,16 +1,18 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ anime.title }} - Detalles</title>
-    
-    <link rel="stylesheet" href="{% static 'anime/description.css' %}">
-</head>
-<body>
 
-    <header class="hero" style="background-image: linear-gradient(to top, var(--bg-color) 0%, rgba(9, 9, 11, 0.2) 100%), url('{{ anime.poster_url }}');">
+{% block title %}{{ anime.title|default:"Anime Detalle" }}{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'anime/description.css' %}">
+    <link rel="stylesheet" href="{% static 'anime/general.css' %}">
+{% endblock %}
+{% block content %}
+
+<header class="hero" id="hero-header" style="background-image: linear-gradient(to top, var(--bg-color) 0%, rgba(9, 9, 11, 0.4) 100%), url('{{ anime.poster_url }}');">
+        
+        <a href="{% url 'anime_list' %}" class="btn-back">← Volver a la lista</a>
+        <img src="{{ anime.poster_url }}" style="display: none;" onerror="document.getElementById('hero-header').style.backgroundImage=`linear-gradient(to top, var(--bg-color) 0%, rgba(9, 9, 11, 0.4) 100%), url('{% static 'anime/images/default_poster.jpg' %}')`">
+        
         <div class="hero-content">
             <h1>{{ anime.title }}</h1>
         </div>
@@ -42,17 +44,26 @@
                 </div>
             </section>
 
-            <section class="characters">
-                <h2 class="section-title">Personajes Principales</h2>
+           <section class="characters">
+                <div class="characters-header">
+                    <h2 class="section-title">Personajes</h2>
+                    <a href="{% url 'add_character' anime.id %}" class="btn-add-pill">+ Agregar</a>
+                </div>
+
                 <div class="character-grid">
                     {% for character in anime.characters %}
                     <div class="character-card">
-                        <img src="{{ character.image_url }}" alt="{{ character.name }}">
+                        <a href="{% url 'delete_character' anime.id character.name %}" 
+                        class="delete-char-btn" 
+                        onclick="return confirm('¿Eliminar a {{ character.name }}?')"
+                        title="Eliminar personaje">&times;</a>
+
+                        <img src="{{ character.image_url }}" alt="{{ character.name }}" 
+                            onerror="this.onerror=null; this.src='{% static 'anime/images/default_character.jpg' %}';">
+                        
                         <div class="character-info">
                             <h4>{{ character.name }}</h4>
-                            {% if character.gender %}
-                                <span>{{ character.gender }}</span>
-                            {% endif %}
+                            <span class="role-badge">{{ character.role|default:"Personaje" }}</span>
                         </div>
                     </div>
                     {% empty %}
@@ -66,12 +77,20 @@
             <section class="reviews">
                 <div class="reviews-header">
                     <h2 class="section-title">Reseñas</h2>
-                    <span class="view-all">Ver todas ></span>
+                    <div class="reviews-actions">
+                        <a href="{% url 'add_review' anime.id %}" class="btn-add-review">+ Escribir Reseña</a>
+                        <a href="{% url 'all_reviews' anime.id %}" class="view-all" style="text-decoration: none;">Ver todas ></a>
+                    </div>
                 </div>
                 
                 <div class="reviews-list">
                     {% for review in anime.reviews|slice:":4" %}
-                    <div class="review-card">
+                    <div class="review-card" style="position: relative;"> <a href="{% url 'delete_review' anime.id review.username %}" 
+                        class="btn-delete-review" 
+                        onclick="return confirm('¿Seguro que quieres borrar esta reseña?')"
+                        title="Eliminar reseña">
+                        &times;
+                        </a>
                         <div class="review-header">
                             <span class="review-user">@{{ review.username }}</span>
                             <span class="review-rating">⭐ {{ review.rating }}/5</span>
@@ -107,5 +126,4 @@
         </div>
     </main>
 
-</body>
-</html>
+{% endblock %}

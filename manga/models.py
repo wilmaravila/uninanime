@@ -33,7 +33,7 @@ class Manga(models.Model):
     descripcion= models.TextField()
     generos = models.JSONField(default=list)
     capitulos = models.IntegerField()
-    estado = models.CharField(max_length=2, choices= EstadoManga.choices, default= EstadoManga.emision)
+    estado = models.CharField(max_length=2, choices= EstadoManga.choices, default= EstadoManga.EMISION)
     rating = models.DecimalField(max_digits=3,decimal_places=1)
     review = models.JSONField(default=list, validators=[validador_review])
     def __str__(self):
