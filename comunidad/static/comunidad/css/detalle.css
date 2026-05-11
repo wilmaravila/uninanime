@@ -180,3 +180,40 @@
     .detalle-titulo { font-size: 1.6rem; }
     .relacionadas-grid { grid-template-columns: 1fr; }
 }
+
+.detalle-acciones {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 32px;
+}
+
+.btn-editar,
+.btn-eliminar {
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all .2s;
+    border: 1px solid;
+}
+
+.btn-editar {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-editar:hover {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.btn-eliminar {
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+.btn-eliminar:hover {
+    background: #ef4444;
+    color: #fff;
+}

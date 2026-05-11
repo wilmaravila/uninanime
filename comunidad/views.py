@@ -8,7 +8,6 @@ def lista(request):
     tipo  = request.GET.get('tipo', '')
     todas = list(Publicacion.objects.all())
 
-    # Filtramos en Python por el bug de Djongo con BooleanFields
     todas = [p for p in todas if p.publicada]
 
     if tipo:
@@ -41,12 +40,7 @@ def detalle(request, pk):
 
 
 def nueva_publicacion(request):
-    """
-    GET  → muestra el formulario vacío.
-    POST → valida, guarda en MongoDB y redirige a la lista.
-    """
     if request.method == 'POST':
-        # request.FILES es necesario para recibir la imagen de portada
         form = PublicacionForm(request.POST, request.FILES)
         if form.is_valid():
             publicacion          = form.save(commit=False)
@@ -73,3 +67,33 @@ def sugerencias(request):
         form = SugerenciaForm()
 
     return render(request, 'comunidad/sugerencias.html', {'form': form})
+
+def editar_publicacion(request, pk):
+    pub = get_object_or_404(Publicacion, pk=pk)
+
+    if request.method == 'POST':
+        form = PublicacionForm(request.POST, request.FILES, instance=pub)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Publicación "{pub.titulo}" actualizada.')
+            return redirect('com_detalle', pk=pub.pk)
+    else:
+        form = PublicacionForm(instance=pub)
+
+    return render(request, 'comunidad/nueva.html', {
+        'form': form,
+        'editando': True,
+        'publicacion': pub,
+    })
+
+
+def eliminar_publicacion(request, pk):
+    pub = get_object_or_404(Publicacion, pk=pk)
+
+    if request.method == 'POST':
+        titulo = pub.titulo
+        pub.delete()
+        messages.success(request, f'Publicación "{titulo}" eliminada.')
+        return redirect('com_lista')
+
+    return render(request, 'comunidad/confirmar_eliminar.html', {'pub': pub})

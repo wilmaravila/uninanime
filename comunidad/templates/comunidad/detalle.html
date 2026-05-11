@@ -11,6 +11,10 @@
 <div class="detalle-wrapper">
 
   <a href="{% url 'com_lista' %}" class="detalle-back">◂ Volver a la comunidad</a>
+  <div class="detalle-acciones">
+  <a href="{% url 'com_editar' pub.pk %}" class="btn-editar">Editar</a>
+  <a href="{% url 'com_eliminar' pub.pk %}" class="btn-eliminar">Eliminar</a>
+  </div>
 
   <span class="detalle-pill">{{ pub.get_tipo_display }}</span>
 

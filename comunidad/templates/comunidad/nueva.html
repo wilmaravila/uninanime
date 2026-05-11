@@ -11,7 +11,7 @@
 <div class="form-wrapper">
 
   <div class="form-section-title">
-    <h2>Nueva publicación</h2>
+    <h2>{% if editando %}Editar publicación{% else %}Nueva publicación{% endif %}</h2>
     <a href="{% url 'com_lista' %}" class="form-back">◂ Volver</a>
   </div>
 
@@ -109,7 +109,9 @@
       </div>
     </div>
 
-    <button type="submit" class="btn-submit">Publicar ahora</button>
+    <button type="submit" class="btn-submit">
+    {% if editando %}Guardar cambios{% else %}Publicar ahora{% endif %}
+    </button>
   </form>
 </div>
 
