@@ -1,0 +1,239 @@
+:root {
+    --bg-color: #09090b;
+    --surface-color: #16161a;
+    --primary-color: #a855f7;
+    --text-main: #f4f4f5;
+    --text-muted: #a1a1aa;
+    --border-color: #27272a;
+    --error-color: #ef4444;
+}
+
+.reviews-page-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 20px;
+    min-height: 80vh;
+}
+
+.reviews-page-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding: 2.5rem;
+    background: linear-gradient(180deg, var(--surface-color) 0%, rgba(22, 22, 26, 0.5) 100%);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.reviews-page-header h1 {
+    font-size: 2.2rem;
+    margin: 1rem 0;
+    color: var(--text-main);
+}
+
+.highlight { 
+    color: var(--primary-color); 
+}
+
+.nav-top {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+}
+
+.btn-back {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.btn-back:hover {
+    color: var(--text-main);
+    border-color: var(--text-muted);
+    transform: translateX(-4px);
+}
+
+.btn-back .icon {
+    font-size: 1.2rem;
+}
+
+.header-actions {
+    margin-top: 2rem;
+}
+
+.btn-add-main {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.2);
+}
+
+.btn-add-main:hover {
+    background-color: #9333ea;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(168, 85, 247, 0.3);
+}
+
+.stats-summary {
+    margin: 1.5rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.avg-badge {
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 1.2rem;
+}
+
+.count-text {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    align-items: start;
+}
+
+.review-card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, border-color 0.2s;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+}
+
+.user-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-avatar {
+    width: 35px;
+    height: 35px;
+    background: var(--bg-color);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+.username {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.delete-icon {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 1.6rem;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.delete-icon:hover {
+    color: var(--error-color);
+}
+
+.card-body {
+    flex-grow: 1;
+}
+
+.stars {
+    margin-bottom: 0.5rem;
+}
+
+.star { 
+    color: #3f3f46; 
+    font-size: 1rem; 
+}
+
+.star.filled { 
+    color: #facc15; 
+}
+
+.review-title {
+    margin: 0.5rem 0;
+    font-size: 1.2rem;
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+.review-body {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 5; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem;
+    color: var(--text-muted);
+    background-color: var(--surface-color);
+    border-radius: 16px;
+    border: 1px dashed var(--border-color);
+}
+
+@media (max-width: 600px) {
+    .reviews-page-header {
+        padding: 1.5rem;
+    }
+    .reviews-page-header h1 {
+        font-size: 1.8rem;
+    }
+    .reviews-grid {
+        grid-template-columns: 1fr;
+    }
+}

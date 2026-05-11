@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'comunidad/css/sugerencias.css' %}">
+{% endblock %}
+
+{% block title %}Sugerir tema{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+
+  <div class="form-section-title">
+    <h2>Sugiere un tema</h2>
+    <a href="{% url 'com_lista' %}" class="form-back">◂ Volver</a>
+  </div>
+
+  <p class="form-subtitle">
+    ¿Hay algo que quieras que cubramos? Cuéntanos qué te gustaría leer
+    y lo tendremos en cuenta para próximas publicaciones.
+  </p>
+
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="alerta-exito">{{ msg }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="form-card">
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label class="form-label-custom">Nombre</label>
+        <input type="text" name="nombre" class="form-control-custom"
+               placeholder="Tu nombre o alias">
+        {% if form.nombre.errors %}<div class="error-field">{{ form.nombre.errors|join:", " }}</div>{% endif %}
+      </div>
+
+      <div class="form-group">
+        <label class="form-label-custom">Email</label>
+        <input type="email" name="email" class="form-control-custom"
+               placeholder="tucorreo@ejemplo.com">
+        {% if form.email.errors %}<div class="error-field">{{ form.email.errors|join:", " }}</div>{% endif %}
+      </div>
+
+      <div class="form-group">
+        <label class="form-label-custom">Tema que sugieres</label>
+        <input type="text" name="tema" class="form-control-custom"
+               placeholder="¿Sobre qué quieres que escribamos?">
+        {% if form.tema.errors %}<div class="error-field">{{ form.tema.errors|join:", " }}</div>{% endif %}
+      </div>
+
+      <button type="submit" class="btn-submit">Enviar sugerencia</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

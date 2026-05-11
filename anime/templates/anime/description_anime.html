@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ anime.title|default:"Anime Detalle" }}{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'anime/description.css' %}">
+    <link rel="stylesheet" href="{% static 'anime/general.css' %}">
+{% endblock %}
+{% block content %}
+
+<header class="hero" id="hero-header" style="background-image: linear-gradient(to top, var(--bg-color) 0%, rgba(9, 9, 11, 0.4) 100%), url('{{ anime.poster_url }}');">
+        
+        <a href="{% url 'anime_list' %}" class="btn-back">← Volver a la lista</a>
+        <img src="{{ anime.poster_url }}" style="display: none;" onerror="document.getElementById('hero-header').style.backgroundImage=`linear-gradient(to top, var(--bg-color) 0%, rgba(9, 9, 11, 0.4) 100%), url('{% static 'anime/images/default_poster.jpg' %}')`">
+        
+        <div class="hero-content">
+            <h1>{{ anime.title }}</h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="left-col">
+            <div class="stats-bar">
+                <div class="stats-info">
+                    <div class="rating">
+                        ⭐ <span>{{ anime.stats.avg_rating|default:"0.0" }}</span>
+                    </div>
+                    <span>{{ anime.release_year }}</span>
+                    <span>TV MA</span>
+                    <span>{{ anime.episodes }} EP</span>
+                </div>
+                <button class="btn-add">+ Añadir a mi Lista</button>
+            </div>
+
+            <section class="synopsis">
+                <h2 class="section-title">Sinopsis</h2>
+                <p>{{ anime.synopsis }}</p>
+                <div class="genres">
+                    {% for genre in anime.genres %}
+                        <span class="genre-pill">{{ genre }}</span>
+                    {% empty %}
+                        <span class="genre-pill">Sin género</span>
+                    {% endfor %}
+                </div>
+            </section>
+
+           <section class="characters">
+                <div class="characters-header">
+                    <h2 class="section-title">Personajes</h2>
+                    <a href="{% url 'add_character' anime.id %}" class="btn-add-pill">+ Agregar</a>
+                </div>
+
+                <div class="character-grid">
+                    {% for character in anime.characters %}
+                    <div class="character-card">
+                        <a href="{% url 'delete_character' anime.id character.name %}" 
+                        class="delete-char-btn" 
+                        onclick="return confirm('¿Eliminar a {{ character.name }}?')"
+                        title="Eliminar personaje">&times;</a>
+
+                        <img src="{{ character.image_url }}" alt="{{ character.name }}" 
+                            onerror="this.onerror=null; this.src='{% static 'anime/images/default_character.jpg' %}';">
+                        
+                        <div class="character-info">
+                            <h4>{{ character.name }}</h4>
+                            <span class="role-badge">{{ character.role|default:"Personaje" }}</span>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="empty-message">No hay personajes registrados.</p>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+
+        <div class="right-col">
+            <section class="reviews">
+                <div class="reviews-header">
+                    <h2 class="section-title">Reseñas</h2>
+                    <div class="reviews-actions">
+                        <a href="{% url 'add_review' anime.id %}" class="btn-add-review">+ Escribir Reseña</a>
+                        <a href="{% url 'all_reviews' anime.id %}" class="view-all" style="text-decoration: none;">Ver todas ></a>
+                    </div>
+                </div>
+                
+                <div class="reviews-list">
+                    {% for review in anime.reviews|slice:":4" %}
+                    <div class="review-card" style="position: relative;"> <a href="{% url 'delete_review' anime.id review.username %}" 
+                        class="btn-delete-review" 
+                        onclick="return confirm('¿Seguro que quieres borrar esta reseña?')"
+                        title="Eliminar reseña">
+                        &times;
+                        </a>
+                        <div class="review-header">
+                            <span class="review-user">@{{ review.username }}</span>
+                            <span class="review-rating">⭐ {{ review.rating }}/5</span>
+                        </div>
+                        <p class="review-comment">"{{ review.comment }}"</p>
+                        <p class="review-desc">{{ review.description }}</p>
+                    </div>
+                    {% empty %}
+                    <p class="empty-message">Nadie ha comentado aún. ¡Sé el primero!</p>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="series-info">
+                <h3>Información</h3>
+                <div class="info-row">
+                    <span class="info-label">Episodios</span>
+                    <span class="info-value">{{ anime.episodes }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Año de Emisión</span>
+                    <span class="info-value">{{ anime.release_year }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Vistas Totales</span>
+                    <span class="info-value">{{ anime.stats.views|default:"0" }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Total Reseñas</span>
+                    <span class="info-value">{{ anime.stats.total_reviews|default:"0" }}</span>
+                </div>
+            </section>
+        </div>
+    </main>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Libreria anime{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'anime/list.css' %}">
+    <link rel="stylesheet" href="{% static 'anime/general.css' %}">
+{% endblock %}
+{% block content %}
+
+    <div class="header-container">
+        <h1 class="title">Libreria Anime.</h1>
+        <a href="{% url 'anime_create' %}" class="btn-add-anime">+ Agregar Anime</a>
+    </div>
+
+    <div class="grid">
+        {% for anime in animes %}
+        <div class="card">
+            <div class="card-actions">
+                <a href="{% url 'anime_update' anime.id %}" class="btn-action edit" title="Editar">✏️</a>
+                
+                <a href="{% url 'anime_delete' anime.id %}" 
+                class="btn-action delete" 
+                title="Eliminar"
+                onclick="return confirm('¿Estás completamente seguro de eliminar este anime? Esta acción no se puede deshacer.')">
+                🗑️
+                </a>
+            </div>
+
+            <a href="{% url 'anime_detail' anime.id %}" class="card-link">
+                <div class="poster">
+                    <img src="{{ anime.poster_url }}" onerror="this.onerror=null; this.src='{% static 'anime/images/default_poster.jpg' %}';">
+                </div>
+                <div class="info">
+                    <h3>{{ anime.title }}</h3>
+                    <p>{{ anime.release_year }}</p>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>
+
+{% endblock %}

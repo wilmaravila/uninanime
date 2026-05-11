@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Escribir Reseña - {{ anime.title }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'anime/add_review.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Reseña para <span style="color: var(--primary-color);">{{ anime.title }}</span></h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        
+        {% if form.non_field_errors %}
+            <div class="error-message">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <span class="field-error">{{ field.errors.0 }}</span>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <div class="form-actions">
+            <a href="{% url 'anime_detail' anime.id %}" class="btn-cancel">Cancelar</a>
+            <button type="submit" class="btn-submit">Publicar Reseña</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

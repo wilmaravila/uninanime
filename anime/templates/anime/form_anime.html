@@ -1,0 +1,46 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if editing %}Actualizar Anime{% else %}Añadir Nuevo Anime{% endif %}{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'anime/form_anime.css' %}">
+{% endblock %}
+{% block content %}{% load static %}
+
+    <section class="form-section">
+
+        <div class="form-container">
+            <h2>{% if editing %}Actualizar Anime{% else %}Añadir Nuevo Anime{% endif %}</h2>
+            <form method="POST">
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                    <div class="error-message">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        
+                        {% if field.errors %}
+                            <span class="field-error">{{ field.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <div class="form-actions">
+                    <a href="{% url 'anime_list' %}" class="btn-cancel">Cancelar</a>
+                    <button type="submit" class="btn-submit">
+                        {% if editing %}Guardar Cambios{% else %}Guardar Anime{% endif %}
+                    </button>
+            </form>
+        </div>
+
+    </section>
+
+
+{% endblock %}

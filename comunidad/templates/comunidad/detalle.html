@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'comunidad/css/detalle.css' %}">
+{% endblock %}
+
+{% block title %}{{ pub.titulo }}{% endblock %}
+
+{% block content %}
+<div class="detalle-wrapper">
+
+  <a href="{% url 'com_lista' %}" class="detalle-back">◂ Volver a la comunidad</a>
+  <div class="detalle-acciones">
+  <a href="{% url 'com_editar' pub.pk %}" class="btn-editar">Editar</a>
+  <a href="{% url 'com_eliminar' pub.pk %}" class="btn-eliminar">Eliminar</a>
+  </div>
+
+  <span class="detalle-pill">{{ pub.get_tipo_display }}</span>
+
+  <h1 class="detalle-titulo">{{ pub.titulo }}</h1>
+  <p class="detalle-resumen">{{ pub.resumen }}</p>
+
+  <div class="detalle-meta">
+    <span class="detalle-meta-item">Por <strong>{{ pub.autor }}</strong></span>
+    <span class="detalle-meta-item">{{ pub.creado|date:"d \d\e F, Y" }}</span>
+    {% if pub.tipo == 'resena' and pub.puntuacion %}
+      <span class="detalle-puntuacion">{{ pub.puntuacion }}/10</span>
+    {% endif %}
+    {% if pub.tipo == 'estreno' and pub.fecha_estreno %}
+      <span class="detalle-meta-item">Estreno: <strong>{{ pub.fecha_estreno|date:"d M Y" }}</strong></span>
+    {% endif %}
+    {% if pub.anime_nombre %}
+      <span class="detalle-meta-item">Anime: <strong>{{ pub.anime_nombre }}</strong></span>
+    {% endif %}
+    {% if pub.manga_nombre %}
+      <span class="detalle-meta-item">Manga: <strong>{{ pub.manga_nombre }}</strong></span>
+    {% endif %}
+  </div>
+
+  {% if pub.portada %}
+    <img src="{{ pub.portada.url }}" class="detalle-portada" alt="{{ pub.titulo }}">
+  {% endif %}
+
+  <div class="detalle-contenido">{{ pub.contenido|linebreaks }}</div>
+
+  {% if etiquetas %}
+  <div class="detalle-etiquetas">
+    {% for tag in etiquetas %}
+      <span class="etiqueta">#{{ tag }}</span>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+</div>
+
+{% if relacionadas %}
+<div class="relacionadas-section">
+  <h2 class="relacionadas-title">También te puede interesar</h2>
+  <div class="relacionadas-grid">
+    {% for rel in relacionadas %}
+    <a href="{% url 'com_detalle' rel.pk %}" class="rel-card">
+      <span class="rel-pill">{{ rel.get_tipo_display }}</span>
+      <h3 class="rel-titulo">{{ rel.titulo|truncatechars:70 }}</h3>
+      <p class="rel-autor">{{ rel.autor }}</p>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}
