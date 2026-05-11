@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Anime</title>
+    <link rel="stylesheet" href="{% static 'anime/new_anime.css' %}">
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Añadir Nuevo Anime</h2>
+
+        <form method="POST" action="{% url 'anime_create' %}">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+                <div class="error-message">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    
+                    {% if field.errors %}
+                        <span class="field-error">{{ field.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div class="form-actions">
+                <a href="{% url 'anime_list' %}" class="btn-cancel">Cancelar</a>
+                <button type="submit" class="btn-submit">Guardar Anime</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
