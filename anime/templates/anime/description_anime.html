@@ -13,6 +13,7 @@
 
 <header class="hero" id="hero-header" style="background-image: linear-gradient(to top, var(--bg-color) 0%, rgba(9, 9, 11, 0.4) 100%), url('{{ anime.poster_url }}');">
         
+        <a href="{% url 'anime_list' %}" class="btn-back">← Volver a la lista</a>
         <img src="{{ anime.poster_url }}" style="display: none;" onerror="document.getElementById('hero-header').style.backgroundImage=`linear-gradient(to top, var(--bg-color) 0%, rgba(9, 9, 11, 0.4) 100%), url('{% static 'anime/images/default_poster.jpg' %}')`">
         
         <div class="hero-content">

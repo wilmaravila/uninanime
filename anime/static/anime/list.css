@@ -38,3 +38,105 @@ body {
 .info {
     padding: 10px;
 }
+
+/* --- CABECERA Y BOTÓN AGREGAR --- */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px; /* Ajusta según el ancho máximo de tu grid */
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.title {
+    margin: 0;
+    font-size: 2.5rem;
+    color: #f4f4f5; /* Asumiendo que tu fondo es oscuro */
+}
+
+.btn-add-anime {
+    background-color: #a855f7;
+    color: white;
+    text-decoration: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-add-anime:hover {
+    background-color: #9333ea;
+}
+
+.btn-add-anime:active {
+    transform: scale(0.95);
+}
+
+/* --- TARJETA Y BOTÓN EDITAR --- */
+.card {
+    position: relative; /* CRÍTICO para que el botón de editar flote relativo a la tarjeta */
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #16161a;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block; /* Para que el enlace ocupe toda el área de la tarjeta */
+}
+
+/* Estilos para el botón de editar (Flotante) */
+.btn-edit {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(9, 9, 11, 0.7);
+    color: white;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    text-decoration: none;
+    z-index: 10; /* Asegura que esté por encima del enlace principal */
+    transition: background-color 0.2s;
+    backdrop-filter: blur(4px);
+    border: 1px solid #27272a;
+}
+
+.btn-edit:hover {
+    background-color: #a855f7;
+    border-color: #a855f7;
+}
+
+/* Ajustes básicos para poster e info (por si no los tenías) */
+.poster img {
+    width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    display: block;
+}
+
+.info {
+    padding: 1rem;
+}
+
+.info h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    color: #f4f4f5;
+}
+
+.info p {
+    margin: 0;
+    color: #a1a1aa;
+    font-size: 0.9rem;
+}
