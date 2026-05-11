@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'comunidad/css/lista.css' %}">
+{% endblock %}
+
+{% block title %}Comunidad UniNAnime{% endblock %}
+
+{% block content %}
+
+<div class="section-header">
+  <div class="section-eyebrow">— Comunidad</div>
+  <h1 class="section-title-main">Lo último del mundo otaku</h1>
+  <p class="section-subtitle">Noticias, reseñas, estrenos y todo sobre anime y manga.</p>
+</div>
+
+<div class="filtros">
+  <a href="{% url 'com_lista' %}" class="filtro-btn {% if not tipo %}activo{% endif %}">Todos</a>
+  {% for valor, etiqueta in tipos %}
+  <a href="{% url 'com_lista' %}?tipo={{ valor }}"
+     class="filtro-btn {% if tipo == valor %}activo{% endif %}">
+    {{ etiqueta }}
+  </a>
+  {% endfor %}
+</div>
+
+{% if hero %}
+<div class="hero-layout">
+  <a href="{% url 'com_detalle' hero.pk %}" class="hero-main">
+    {% if hero.portada %}
+      <img src="{{ hero.portada.url }}" class="hero-main-img" alt="{{ hero.titulo }}">
+    {% else %}
+      <div class="hero-main-placeholder"></div>
+    {% endif %}
+    <div class="hero-main-overlay">
+      <div class="hero-eyebrow">
+        <span class="hero-pill">{{ hero.get_tipo_display }}</span>
+        <span class="hero-dot">{{ hero.autor }} · {{ hero.creado|timesince }} atrás</span>
+      </div>
+      <h2 class="hero-titulo">{{ hero.titulo }}</h2>
+      <p class="hero-resumen">{{ hero.resumen|truncatechars:160 }}</p>
+    </div>
+  </a>
+
+  <div class="hero-aside">
+    {% for pub in aside %}
+    <a href="{% url 'com_detalle' pub.pk %}" class="aside-card">
+      <div>
+        <span class="aside-pill">{{ pub.get_tipo_display }}</span>
+        <h3 class="aside-titulo">{{ pub.titulo|truncatechars:90 }}</h3>
+      </div>
+      <div class="aside-meta">{{ pub.autor }} · {{ pub.creado|timesince }} atrás</div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<div class="section-grid-header">
+  <h2 class="section-grid-title">Todas las publicaciones</h2>
+  <span class="section-grid-count">{{ grid|length }} resultado{{ grid|length|pluralize }}</span>
+</div>
+
+<div class="grid-publicaciones">
+  {% for pub in grid %}
+  <a href="{% url 'com_detalle' pub.pk %}" class="pub-card">
+
+    <div class="pub-card-img-wrapper">
+      {% if pub.portada %}
+        <img src="{{ pub.portada.url }}" class="pub-card-img" alt="{{ pub.titulo }}">
+      {% else %}
+        <div class="pub-card-img-placeholder">
+          <span class="pub-card-img-letter">{{ pub.titulo|first|upper }}</span>
+        </div>
+      {% endif %}
+      <span class="pub-card-tipo-overlay">{{ pub.get_tipo_display }}</span>
+      {% if pub.tipo == 'resena' and pub.puntuacion %}
+        <span class="pub-card-puntuacion">{{ pub.puntuacion }}/10</span>
+      {% endif %}
+    </div>
+
+    <div class="pub-card-body">
+      <h3 class="pub-card-titulo">{{ pub.titulo }}</h3>
+      <p class="pub-card-resumen">{{ pub.resumen }}</p>
+
+      {% if pub.anime_nombre %}
+        <span class="pub-card-relacionado">▸ {{ pub.anime_nombre }}</span>
+      {% elif pub.manga_nombre %}
+        <span class="pub-card-relacionado">▸ {{ pub.manga_nombre }}</span>
+      {% endif %}
+
+      {% if pub.etiquetas %}
+      <div class="pub-card-etiquetas">
+        {% for tag in pub.get_etiquetas_lista %}
+          <span class="etiqueta">#{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="pub-card-footer">
+        <span class="pub-card-autor">{{ pub.autor }}</span>
+        <span>{{ pub.creado|date:"d M Y" }}</span>
+      </div>
+    </div>
+  </a>
+
+  {% empty %}
+  <div class="empty-state">
+    <h3 class="empty-state-title">Aún no hay publicaciones</h3>
+    <p>Sé el primero en compartir algo con la comunidad.</p>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+uninanime/Lib/
+uninanime/Scripts/
+uninanime/Include/
+uninanime/pyvenv.cfg
+.vscode/
+.env
+db.sqlite3

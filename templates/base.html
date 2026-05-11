@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}UniNAnime{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<nav class="navbar-custom">
+  <div class="navbar-inner">
+    <a href="{% url 'com_lista' %}" class="brand">UniNAnime</a>
+    <ul class="nav-links">
+      <li><a class="nav-link-custom {% if request.resolver_match.url_name == 'com_lista' %}active{% endif %}" href="{% url 'com_lista' %}">Inicio</a></li>
+      <li><a class="nav-link-custom {% if request.resolver_match.url_name == 'com_sugerencias' %}active{% endif %}" href="{% url 'com_sugerencias' %}">Sugerencias</a></li>
+      <li><a class="nav-link-custom btn-publicar" href="{% url 'com_nueva' %}">Publicar</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="main-container">
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="alerta-exito">{{ msg }}</div>
+    {% endfor %}
+  {% endif %}
+  {% block content %}{% endblock %}
+</main>
+
+{% block extra_js %}{% endblock %}
+</body>
+</html>
