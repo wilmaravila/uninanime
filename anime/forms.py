@@ -41,8 +41,19 @@ class AnimeForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(AnimeForm, self).__init__(*args, **kwargs)
+        
+        # Si estamos editando un anime que ya existe...
         if self.instance and self.instance.pk:
-            self.fields['genres'].initial = ", ".join(self.instance.genres)
+            genres_data = self.instance.genres
+            
+            
+            if isinstance(genres_data, list):
+                self.fields['genres'].initial = ", ".join(genres_data)
+            
+            
+            elif isinstance(genres_data, str):
+                limpio = genres_data.replace('[', '').replace(']', '').replace("'", '').replace('"', '')
+                self.fields['genres'].initial = limpio
 
     def clean_genres(self):
         genres_raw = self.cleaned_data.get('genres', '')
@@ -50,3 +61,29 @@ class AnimeForm(forms.ModelForm):
         if len(genres_list) == 0:
             raise ValidationError("Debe ingresar al menos un género.")
         return genres_list
+    
+class ReviewForm(forms.Form):
+    username = forms.CharField(
+        label="Tu nombre de usuario *",
+        max_length=100,
+        widget=forms.TextInput(attrs={'placeholder': 'Ej: OtakuMaster99'})
+    )
+    
+    rating = forms.IntegerField(
+        label="Calificación (1 a 5) *",
+        min_value=1,
+        max_value=5,
+        widget=forms.NumberInput(attrs={'min': 1, 'max': 5})
+    )
+    
+    comment = forms.CharField(
+        label="Título de la reseña *",
+        max_length=200,
+        widget=forms.TextInput(attrs={'placeholder': 'Ej: ¡Obra maestra!'})
+    )
+    
+    description = forms.CharField(
+        label="Descripción completa (Opcional)",
+        required=False, 
+        widget=forms.Textarea(attrs={'rows': 4, 'placeholder': '¿Qué te pareció la animación, la historia...?'})
+    )

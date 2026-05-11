@@ -69,14 +69,19 @@
                 <div class="reviews-header">
                     <h2 class="section-title">Reseñas</h2>
                     <div class="reviews-actions">
-                        <button class="btn-add-review">+ Escribir Reseña</button>
+                        <a href="{% url 'add_review' anime.id %}" class="btn-add-review" style="text-decoration: none; display: inline-block;">+ Escribir Reseña</a>
                         <span class="view-all">Ver todas ></span>
                     </div>
                 </div>
                 
                 <div class="reviews-list">
                     {% for review in anime.reviews|slice:":4" %}
-                    <div class="review-card">
+                    <div class="review-card" style="position: relative;"> <a href="{% url 'delete_review' anime.id review.username %}" 
+                        class="btn-delete-review" 
+                        onclick="return confirm('¿Seguro que quieres borrar esta reseña?')"
+                        title="Eliminar reseña">
+                        &times;
+                        </a>
                         <div class="review-header">
                             <span class="review-user">@{{ review.username }}</span>
                             <span class="review-rating">⭐ {{ review.rating }}/5</span>

@@ -1,0 +1,124 @@
+/* static/anime/add_review.css */
+
+/* Las variables :root se pueden quedar si no las tienes en general.css, 
+   si ya las tienes allá, puedes borrar este bloque :root también */
+:root {
+    --bg-color: #09090b;
+    --surface-color: #16161a;
+    --primary-color: #a855f7;
+    --text-main: #f4f4f5;
+    --text-muted: #a1a1aa;
+    --border-color: #27272a;
+    --error-color: #ef4444;
+}
+
+/* ELIMINAMOS EL SELECTOR BODY */
+
+/* Ahora el contenedor se encarga de centrarse a sí mismo */
+.form-container {
+    background-color: var(--surface-color);
+    padding: 2.5rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 450px;
+    /* margin auto lo centra horizontalmente, 4rem le da espacio arriba y abajo */
+    margin: 4rem auto; 
+    border: 1px solid var(--border-color);
+    box-sizing: border-box;
+}
+
+.form-container h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    font-size: 1.4rem;
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.form-group input, 
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus, 
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.error-message {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--error-color);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--error-color);
+}
+
+.field-error {
+    display: block;
+    color: var(--error-color);
+    font-size: 0.8rem;
+    margin-top: 0.4rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-submit {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    flex: 1;
+    transition: background-color 0.2s;
+}
+
+.btn-submit:hover {
+    background-color: #9333ea;
+}
+
+.btn-cancel {
+    background-color: transparent;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 0.8rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    font-weight: bold;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+    color: var(--text-main);
+    border-color: var(--text-muted);
+}

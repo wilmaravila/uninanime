@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Anime
-from .forms import AnimeForm
+from django.core.exceptions import ValidationError
+from .forms import AnimeForm, ReviewForm
 
 def anime_list(request):
     animes = Anime.objects.all()
@@ -38,10 +39,46 @@ def anime_update(request, pk):
             form.save()
             return redirect('anime_detail', pk=anime.id) 
     else:
-        # Al cargar por primera vez, pasamos el anime actual al formulario
         form = AnimeForm(instance=anime)
     
     return render(request, 'anime/form_anime.html', {
         'form': form,
         'editing': True
     })
+
+def add_review(request, pk):
+    anime = get_object_or_404(Anime, pk=pk)
+    
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            nueva_review = {
+                "username": form.cleaned_data['username'],
+                "rating": form.cleaned_data['rating'],
+                "comment": form.cleaned_data['comment'],
+                "description": form.cleaned_data['description'] or "Sin descripción"
+            }
+            
+            anime.reviews.append(nueva_review)
+            
+            try:
+                anime.save() 
+                return redirect('anime_detail', pk=anime.id)
+            except ValidationError as e:
+                error_msg = e.messages[0] if hasattr(e, 'messages') else str(e)
+                form.add_error(None, error_msg)
+    else:
+        form = ReviewForm()
+
+    return render(request, 'anime/add_review.html', {
+        'form': form,
+        'anime': anime
+    })
+
+def delete_review(request, pk, username):
+    anime = get_object_or_404(Anime, pk=pk)
+    
+    anime.reviews = [r for r in anime.reviews if r.get('username') != username]
+    
+    anime.save() 
+    return redirect('anime_detail', pk=pk)

@@ -325,6 +325,28 @@ body {
     font-size: 0.9rem;
 }
 
+/* Botón para eliminar reseña dentro de la tarjeta */
+.btn-delete-review {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: color 0.2s;
+    z-index: 5;
+}
+
+.btn-delete-review:hover {
+    color: var(--error-color, #ef4444);
+}
+
+/* Para que la cabecera de la reseña no se monte sobre la X */
+.review-header {
+    padding-right: 20px;
+}
+
 /* --- RESPONSIVE --- */
 @media (max-width: 900px) {
     .container {
@@ -339,3 +361,4 @@ body {
         gap: 0.5rem;
     }
 }
+
