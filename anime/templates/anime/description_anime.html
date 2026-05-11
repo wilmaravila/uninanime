@@ -4,13 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ anime.title }} - Detalles</title>
+    <meta name="referrer" content="no-referrer">
+    <title>{{ anime.title|default:"Anime Detalle" }}</title>
     
     <link rel="stylesheet" href="{% static 'anime/description.css' %}">
 </head>
 <body>
 
-    <header class="hero" style="background-image: linear-gradient(to top, var(--bg-color) 0%, rgba(9, 9, 11, 0.2) 100%), url('{{ anime.poster_url }}');">
+<header class="hero" id="hero-header" style="background-image: linear-gradient(to top, var(--bg-color) 0%, rgba(9, 9, 11, 0.4) 100%), url('{{ anime.poster_url }}');">
+        
+        <img src="{{ anime.poster_url }}" style="display: none;" onerror="document.getElementById('hero-header').style.backgroundImage=`linear-gradient(to top, var(--bg-color) 0%, rgba(9, 9, 11, 0.4) 100%), url('{% static 'anime/images/default_poster.jpg' %}')`">
+        
         <div class="hero-content">
             <h1>{{ anime.title }}</h1>
         </div>
@@ -47,7 +51,7 @@
                 <div class="character-grid">
                     {% for character in anime.characters %}
                     <div class="character-card">
-                        <img src="{{ character.image_url }}" alt="{{ character.name }}">
+                        <img src="{{ character.image_url }}" alt="{{ character.name }}" onerror="this.onerror=null; this.src='{% static 'anime/images/default_character.jpg' %}';">
                         <div class="character-info">
                             <h4>{{ character.name }}</h4>
                             {% if character.gender %}
@@ -66,7 +70,10 @@
             <section class="reviews">
                 <div class="reviews-header">
                     <h2 class="section-title">Reseñas</h2>
-                    <span class="view-all">Ver todas ></span>
+                    <div class="reviews-actions">
+                        <button class="btn-add-review">+ Escribir Reseña</button>
+                        <span class="view-all">Ver todas ></span>
+                    </div>
                 </div>
                 
                 <div class="reviews-list">
