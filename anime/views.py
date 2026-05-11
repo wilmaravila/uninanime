@@ -28,7 +28,7 @@ def anime_create(request):
     else:
         form = AnimeForm(initial={'episodes': 1, 'release_year': 2024})
 
-    return render(request, 'anime/new_anime.html', {'form': form})
+    return render(request, 'anime/form_anime.html', {'form': form})
 
 def anime_update(request, pk):
     anime = get_object_or_404(Anime, pk=pk)
@@ -45,6 +45,11 @@ def anime_update(request, pk):
         'form': form,
         'editing': True
     })
+
+def anime_delete(request, pk):
+    anime = get_object_or_404(Anime, pk=pk)
+    anime.delete()
+    return redirect('anime_list')
 
 def add_review(request, pk):
     anime = get_object_or_404(Anime, pk=pk)

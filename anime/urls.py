@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import anime_list, anime_detail, anime_create, anime_update, add_review, delete_review, all_reviews
+from .views import *
 
 urlpatterns = [
     path("", anime_list, name="anime_list"),
@@ -9,4 +9,5 @@ urlpatterns = [
     path('anime/<int:pk>/review/add/', add_review, name='add_review'),
     path('anime/<int:pk>/review/delete/<str:username>/', delete_review, name='delete_review'),
     path('anime/<int:pk>/reviews/', all_reviews, name='all_reviews'),
+    path('anime/delete/<int:pk>/', anime_delete, name='anime_delete'),
 ]
